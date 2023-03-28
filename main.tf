@@ -10,10 +10,16 @@ resource "aws_lambda_function" "lambda_finops" {
   role             = "arn:aws:iam::802617578034:role/role-talan-lambda-finops"
   handler          = "lambda_finops.lambda_handler"
   runtime          = "python3.9"
-  timeout          = 400
-
+  timeout          = 500
   tags             = { "Name" = "lambda-gestion-couts" }
 
 }
+
+resource "null_resource" "install_lambda_dependencies" {
+  provisioner "local-exec" {
+    command = "pip install -r requirements.txt -t ${path.module}/functions/"
+  }
+}
+
 
 
